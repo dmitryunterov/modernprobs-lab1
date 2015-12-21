@@ -37,6 +37,14 @@ esac
 # Run shadowconfig only on new installs
 [ -z "$2" ] && shadowconfig on
 
+# Remove S-bit and add cap-s
+chmod u-s /usr/bin/chsh
+chmod u-s /usr/bin/chfn
+chmod u-s /usr/bin/passwd
+setcap CAP_SETUID,CAP_CHOWN=ep /usr/bin/chsh
+setcap CAP_SETUID,CAP_CHOWN=ep /usr/bin/chfn
+setcap CAP_FOWNER,CAP_CHOWN,CAP_DAC_OVERRIDE=ep /usr/bin/passwd
+
 #DEBHELPER#
 
 exit 0
